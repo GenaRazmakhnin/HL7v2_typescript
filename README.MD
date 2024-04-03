@@ -7,3 +7,6 @@ npm install
 ```shell
 npm run dev
 ```
+
+### Process schema
+![alt text](./assets/schema.png)
