@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx tsx index.ts"
+  },
+  "type": "module",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.3.2",
+    "@types/express": "^4.17.21",
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.45.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-node": "^11.1.0",
+    "ts-node": "^10.9.1",
+    "tsx": "^4.7.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@aidbox/sdk-r4": "^1.0.11",
+    "express": "^4.19.2"
+  }
+}
