@@ -2,20 +2,37 @@ import fs from 'fs'
 
 import unzipper from 'unzipper'
 
+let count = 0;
+
 fs.createReadStream('/home/aidbox/temp/temp/message export.zip.001')
   .pipe(unzipper.Parse())
-  .on('entry', entry => {
+  .on('entry', async entry => {
+    if (count >= 4) {
+      entry.autodrain()
+      return;
+    }
+
     const fileName = entry.path
     const type = entry.type
-    const size = entry.vars.uncompressedSize
-
-    console.log(`File: ${fileName}, Type: ${type}, Size: ${size}`)
 
     if (type === 'File') {
       let content = ''
-
+      
       entry.on('data', chunk => { content += chunk.toString() })
-      entry.on('end', () => { console.log(`Content of ${fileName}:`, content) })
+      entry.on('end', async () => {
+
+        try {
+          const response = await axios.post('http://localhost:8080/rpc', {
+            method: 'hl7v2.core/parse',
+            params: { message: content }
+          });
+          console.log(`Response for ${fileName}:`, response.data)
+        } catch (error) {
+          console.error(`Error for ${fileName}:`, error)
+        }
+
+        count++
+      })
     } else {
       entry.autodrain()
     }
