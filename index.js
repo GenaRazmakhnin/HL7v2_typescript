@@ -22,11 +22,19 @@ fs.createReadStream('/home/aidbox/temp/temp/message export.zip.001')
       entry.on('end', async () => {
 
         try {
+          console.log(content)
           const { data } = await axios.post('http://localhost:8080/rpc', {
             method: 'hl7v2.core/parse',
             params: { message: content }
           });
-          console.dir(data.result.parsed.patient_group, { depth: 5 })
+          
+          const patient = data.result.parsed.patient_group.patient
+          
+          console.dir(patient, { depth: 5 })
+          
+          // const phone = patient.telecom.find(telecom = telecom.system === 'phone')?.value || null
+
+          // console.log()
         } catch (error) {
           console.error(`Error for ${fileName}:`, error)
         }
