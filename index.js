@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import unzipper from 'unzipper'
 
-fs.createReadStream('message export.zip.001')
+fs.createReadStream('/home/aidbox/temp/temp/message export.zip.001')
   .pipe(unzipper.Parse())
   .on('entry', entry => {
     const fileName = entry.path
