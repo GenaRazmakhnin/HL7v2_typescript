@@ -22,11 +22,11 @@ fs.createReadStream('/home/aidbox/temp/temp/message export.zip.001')
       entry.on('end', async () => {
 
         try {
-          const response = await axios.post('http://localhost:8080/rpc', {
+          const { data } = await axios.post('http://localhost:8080/rpc', {
             method: 'hl7v2.core/parse',
             params: { message: content }
           });
-          console.log(`Response for ${fileName}:`, response.data)
+          console.log(data.result.patient_group)
         } catch (error) {
           console.error(`Error for ${fileName}:`, error)
         }
