@@ -26,7 +26,7 @@ fs.createReadStream('/home/aidbox/temp/temp/message export.zip.001')
             method: 'hl7v2.core/parse',
             params: { message: content }
           });
-          console.log(data.result.patient_group)
+          console.log(data)
         } catch (error) {
           console.error(`Error for ${fileName}:`, error)
         }
