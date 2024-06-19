@@ -29,11 +29,6 @@ const getFormat = (gender) => {
 fs.createReadStream('/home/aidbox/temp/message export.zip.001')
   .pipe(unzipper.Parse())
   .on('entry', async entry => {
-    if (count >= 4) {
-      entry.autodrain()
-      return;
-    }
-
     const fileName = entry.path
     const type = entry.type
 
