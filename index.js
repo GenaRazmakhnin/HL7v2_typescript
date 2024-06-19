@@ -44,7 +44,7 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
       entry.on('end', async () => {
 
         try {
-          console.log(content)
+          // console.log(content)
           const { data } = await axios.post('http://localhost:8080/rpc', {
             method: 'hl7v2.core/parse',
             params: { message: content }
@@ -52,7 +52,7 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
           
           const patient = data.result.parsed.patient_group.patient
           
-          console.dir(patient, { depth: 5 })
+          // console.dir(patient, { depth: 5 })
           
           const phone = patient.telecom?.find(telecom = telecom.system === 'phone')?.value || null
           const city = patient.address?.[0]?.city || null
@@ -78,6 +78,10 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
         }
 
         count++
+
+        if (count % 100 == 0) {
+          console.log('uploaded: ', count);
+        }
       })
     } else {
       entry.autodrain()
