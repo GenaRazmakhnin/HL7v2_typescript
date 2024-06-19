@@ -1,6 +1,7 @@
 import fs from 'fs'
 import axios from 'axios'
 import unzipper from 'unzipper'
+import path from 'path'
 
 let count = 0;
 let data = [];
@@ -104,15 +105,32 @@ const loadFile = async (file) => {
 } 
 
 const loadFiles = async () => {
-  let strings = [];
+  const strings = [];
 
-  for (let i = 1; i <= 77; i++) {
-      strings.push(i.toString().padStart(3, '0'));
-  }
+  fs.readdir('/home/aidbox/temp', (err, files) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    
+    files.forEach(file => {
+        const filePath = path.join('/home/aidbox/temp', file);
+        fs.stat(filePath, (err, stats) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            if (stats.isFile()) {
+                strings.push(filePath);
+            }
+        });
+    });
+  });
 
   for (let item of strings) {
     //console.log('/home/aidbox/temp/message export.zip.' + item)
-    await loadFile('/home/aidbox/temp/message export.zip.' + item);
+    await loadFile(item);
   }
 }
 
