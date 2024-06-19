@@ -41,34 +41,34 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
       entry.on('end', async () => {
 
         try {
-          // // console.log(content)
-          // const { data } = await axios.post('http://localhost:8080/rpc', {
-          //   method: 'hl7v2.core/parse',
-          //   params: { message: content }
-          // });
+          // console.log(content)
+          const { data } = await axios.post('http://localhost:8080/rpc', {
+            method: 'hl7v2.core/parse',
+            params: { message: content }
+          });
           
-          // const patient = data.result.parsed.patient_group.patient
+          const patient = data.result.parsed.patient_group.patient
           
-          // // console.dir(patient, { depth: 5 })
+          // console.dir(patient, { depth: 5 })
           
-          // const phone = (patient.telecom || []).find(i => i.system === 'phone')?.value || null
-          // const city = patient.address?.[0]?.city || null
-          // const pid = patient.identifier?.find(i => i.system === 'HL7.PID')?.value || null
-          // const ssn = patient.identifier?.find(i => i.system === 'ssn')?.value || null
-          // const first_name = patient.name?.[0]?.given?.[0] || null
-          // const last_name =  patient.name?.[0]?.family || null
-          // const birth_date = patient.birthDate || null
-          // const gender = getFormat(patient.gender)
+          const phone = (patient.telecom || []).find(i => i.system === 'phone')?.value || null
+          const city = patient.address?.[0]?.city || null
+          const pid = patient.identifier?.find(i => i.system === 'HL7.PID')?.value || null
+          const ssn = patient.identifier?.find(i => i.system === 'ssn')?.value || null
+          const first_name = patient.name?.[0]?.given?.[0] || null
+          const last_name =  patient.name?.[0]?.family || null
+          const birth_date = patient.birthDate || null
+          const gender = getFormat(patient.gender)
 
-          // await axios.post('http://jupyter-service.aidbox-dev.svc.cluster.local/patient', {
-          //   pid, ssn, phone,
-          //   first_name, last_name,
-          //   birth_date, gender, city,
-          //   telecom_json: patient.telecom || [],
-          //   identifier_json: patient.identifier || [],
-          //   name_json: patient.name ||  [],
-          //   address_json: patient.address || []
-          // });
+          await axios.post('http://jupyter-service.aidbox-dev.svc.cluster.local/patient', {
+            pid, ssn, phone,
+            first_name, last_name,
+            birth_date, gender, city,
+            telecom_json: patient.telecom || [],
+            identifier_json: patient.identifier || [],
+            name_json: patient.name ||  [],
+            address_json: patient.address || []
+          });
 
           count++
         } catch (error) {
