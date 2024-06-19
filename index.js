@@ -62,35 +62,56 @@ const upload = async (content) => {
     errors = errors + 1;
   }
 
-  if (count % 250 == 0) {
+  if (count % 1000 == 0) {
     console.log('uploaded: ', count);
   }
 }
 
-fs.createReadStream('/home/aidbox/temp/message export.zip.001')
-  .pipe(unzipper.Parse())
-  .on('entry', async entry => {
-    const fileName = entry.path
-    const type = entry.type
+const loadFile = async (file) => {
+  data = []
+  
+  new Promise((res) => {
+    fs.createReadStream(file)
+    .pipe(unzipper.Parse())
+    .on('entry', async entry => {
+      const fileName = entry.path
+      const type = entry.type
+  
+      if (type === 'File') {
+        let content = ''
+        
+        entry.on('data', chunk => { content += chunk.toString() })
+        entry.on('end', async () => { data.push(content) })
+      } else {
+        entry.autodrain()
+      }
+    })
+    .on('error', err => {
+      console.error('Error:', err)
+    })
+    .on('close', async () => {
+      console.log('Extraction complete', data.length)
+  
+      for (let item of data) {
+        await upload(item);
+      }
+  
+      console.log("done")
+      res()
+    })
+  })  
+} 
 
-    if (type === 'File') {
-      let content = ''
-      
-      entry.on('data', chunk => { content += chunk.toString() })
-      entry.on('end', async () => { data.push(content) })
-    } else {
-      entry.autodrain()
-    }
-  })
-  .on('error', err => {
-    console.error('Error:', err)
-  })
-  .on('close', async () => {
-    console.log('Extraction complete', data.length)
+const loadFiles = async () => {
+  let strings = [];
 
-    for (let item of data) {
-      await upload(item);
-    }
+  for (let i = 2; i <= 77; i++) {
+      strings.push(i.toString().padStart(3, '0'));
+  }
 
-    console.log("done")
-  })
+  for (let item of data) {
+    await loadFile('/home/aidbox/temp/message export.zip.' + item);
+  }
+}
+
+loadFiles()
