@@ -71,38 +71,42 @@ const upload = async (content) => {
 
 const loadFile = async (file) => {
   data = []
-  // console.log(file)
 
-  return new Promise((res) => {
-    fs.createReadStream(file)
-    .pipe(unzipper.Parse())
-    .on('entry', async entry => {
-      const fileName = entry.path
-      const type = entry.type
-  
-      if (type === 'File') {
-        let content = ''
-        
-        entry.on('data', chunk => { content += chunk.toString() })
-        entry.on('end', async () => { data.push(content) })
-      } else {
-        entry.autodrain()
-      }
-    })
-    .on('error', err => {
-      console.error('Error:', err)
-    })
-    .on('close', async () => {
-      console.log('Extraction complete', data.length)
-  
-      for (let item of data) {
-        await upload(item);
-      }
-  
-      console.log("done")
-      res()
-    })
-  })  
+  return new Promise((res, rej) => {
+    try {
+      fs.createReadStream(file)
+      .pipe(unzipper.Parse())
+      .on('entry', async entry => {
+        const fileName = entry.path
+        const type = entry.type
+    
+        if (type === 'File') {
+          let content = ''
+          
+          entry.on('data', chunk => { content += chunk.toString() })
+          entry.on('end', async () => { data.push(content) })
+        } else {
+          entry.autodrain()
+        }
+      })
+      .on('error', err => {
+        console.error('Error:', err)
+      })
+      .on('close', async () => {
+        console.log('Extraction complete', data.length)
+    
+        for (let item of data) {
+          await upload(item);
+        }
+    
+        console.log("done")
+        res()
+      })
+
+    } catch(e) {
+      rej(e)
+    }
+  })      
 } 
 
 const getFiles = async () => {
