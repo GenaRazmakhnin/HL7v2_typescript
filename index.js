@@ -1,4 +1,4 @@
-import fs from 'fs'
+import { promises as fs } from 'fs'
 import axios from 'axios'
 import unzipper from 'unzipper'
 import path from 'path'
@@ -104,32 +104,31 @@ const loadFile = async (file) => {
   })  
 } 
 
-const loadFiles = async () => {
-  const strings = [];
+const getFiles = async () => {
+  return new Promise(async (res) => {
+    const strings = []
 
-  fs.readdir('/home/aidbox/temp', (err, files) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
+    const files = await fs.readdir('/home/aidbox/temp');
     
-    files.forEach(file => {
+    for (const file of files) {
         const filePath = path.join('/home/aidbox/temp', file);
-        fs.stat(filePath, (err, stats) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
+        const stats = await fs.stat(filePath);
+        if (stats.isFile()) {
+          strings.push(filePath)
+        }
+    }
 
-            if (stats.isFile()) {
-                strings.push(filePath);
-            }
-        });
-    });
-  });
+    res(strings)
+  })
+}
+
+const loadFiles = async () => {
+  const result = await getFiles()
+
+  console.log(result)
+  
 
   for (let item of strings) {
-    //console.log('/home/aidbox/temp/message export.zip.' + item)
     await loadFile(item);
   }
 }
