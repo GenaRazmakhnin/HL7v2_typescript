@@ -69,8 +69,9 @@ const upload = async (content) => {
 
 const loadFile = async (file) => {
   data = []
+  console.log(file)
 
-  new Promise((res) => {
+  return new Promise((res) => {
     fs.createReadStream(file)
     .pipe(unzipper.Parse())
     .on('entry', async entry => {
@@ -110,6 +111,7 @@ const loadFiles = async () => {
   }
 
   for (let item of strings) {
+    //console.log('/home/aidbox/temp/message export.zip.' + item)
     await loadFile('/home/aidbox/temp/message export.zip.' + item);
   }
 }
