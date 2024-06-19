@@ -54,7 +54,7 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
           
           // console.dir(patient, { depth: 5 })
           
-          const phone = patient.telecom?.find(telecom = telecom.system === 'phone')?.value || null
+          const phone = (patient.telecom || []).find(i = i.system === 'phone')?.value || null
           const city = patient.address?.[0]?.city || null
           const pid = patient.identifier?.find(i => i.system === 'HL7.PID')?.value || null
           const ssn = patient.identifier?.find(i => i.system === 'ssn')?.value || null
