@@ -54,10 +54,10 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
           
           console.dir(patient, { depth: 5 })
           
-          const phone = patient.telecom.find(telecom = telecom.system === 'phone')?.value || null
+          const phone = patient.telecom?.find(telecom = telecom.system === 'phone')?.value || null
           const city = patient.address?.[0]?.city || null
-          const pid = patient.identifier.find(i => i.system === 'HL7.PID')?.value || null
-          const ssn = patient.identifier.find(i => i.system === 'ssn')?.value || null
+          const pid = patient.identifier?.find(i => i.system === 'HL7.PID')?.value || null
+          const ssn = patient.identifier?.find(i => i.system === 'ssn')?.value || null
           const first_name = patient.name?.[0]?.given?.[0] || null
           const last_name =  patient.name?.[0]?.family || null
           const birth_date = patient.birthDate || null
