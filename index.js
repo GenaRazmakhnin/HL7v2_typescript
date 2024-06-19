@@ -1,4 +1,5 @@
-import { promises as fs } from 'fs'
+import { promises as fspromise } from 'fs'
+import fs from 'fs'
 import axios from 'axios'
 import unzipper from 'unzipper'
 import path from 'path'
@@ -108,11 +109,11 @@ const getFiles = async () => {
   return new Promise(async (res) => {
     const strings = []
 
-    const files = await fs.readdir('/home/aidbox/temp');
+    const files = await fspromise.readdir('/home/aidbox/temp');
     
     for (const file of files) {
         const filePath = path.join('/home/aidbox/temp', file);
-        const stats = await fs.stat(filePath);
+        const stats = await fspromise.stat(filePath);
         if (stats.isFile()) {
           strings.push(filePath)
         }
