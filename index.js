@@ -88,5 +88,5 @@ fs.createReadStream('/home/aidbox/temp/message export.zip.001')
     console.error('Error:', err)
   })
   .on('close', () => {
-    console.log('Extraction complete')
+    console.log('Extraction complete', count)
   })
