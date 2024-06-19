@@ -72,7 +72,7 @@ const loadFile = async (file) => {
   console.log(file)
 
   return new Promise((res) => {
-    fs.createReadStream('/home/aidbox/temp/message export.zip.001')
+    fs.createReadStream('/home/aidbox/temp/message export.zip.002')
     .pipe(unzipper.Parse())
     .on('entry', async entry => {
       const fileName = entry.path
