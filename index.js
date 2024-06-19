@@ -125,10 +125,7 @@ const getFiles = async () => {
 const loadFiles = async () => {
   const result = await getFiles()
 
-  console.log(result)
-  
-
-  for (let item of strings) {
+  for (let item of result) {
     await loadFile(item);
   }
 }
