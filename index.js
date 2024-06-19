@@ -3,7 +3,7 @@ import axios from 'axios'
 import unzipper from 'unzipper'
 
 let count = 0;
-const data = [];
+let data = [];
 
 const getFormat = (gender) => {
   switch(gender) {
@@ -69,7 +69,7 @@ const upload = async (content) => {
 
 const loadFile = async (file) => {
   data = []
-  
+
   new Promise((res) => {
     fs.createReadStream(file)
     .pipe(unzipper.Parse())
@@ -109,7 +109,7 @@ const loadFiles = async () => {
       strings.push(i.toString().padStart(3, '0'));
   }
 
-  for (let item of data) {
+  for (let item of strings) {
     await loadFile('/home/aidbox/temp/message export.zip.' + item);
   }
 }
