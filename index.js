@@ -71,7 +71,7 @@ const upload = async (content) => {
 
 const loadFile = async (file) => {
   data = []
-  console.log(file)
+  // console.log(file)
 
   return new Promise((res) => {
     fs.createReadStream(file)
@@ -127,7 +127,12 @@ const loadFiles = async () => {
   const result = await getFiles()
 
   for (let item of result) {
-    await loadFile(item);
+    console.log(item)
+    try {
+      await loadFile(item);
+    } catch(error) {
+      console.log(error)
+    }
   }
 }
 
