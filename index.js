@@ -147,8 +147,7 @@ const loadFiles = async () => {
   for (let item of result) {
     console.log(item)
     try {
-      // await loadFile(item);
-      let res = await isValidZip(item);
+      await loadFile(item);
       console.log(res)
     } catch(error) {
       console.log(error)
