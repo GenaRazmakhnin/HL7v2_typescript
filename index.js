@@ -80,15 +80,15 @@ const upload = async (content) => {
 const loadFile = async (file) => {
   data = []
 
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err)
-      return
-    }
+  return new Promise((resolve) => {
+    fs.readFile(file, 'utf8', (err, data) => {
+      if (err) {
+        console.error(err)
+        return
+      }
 
-    console.log('data:', data)
+      console.log('data:', data)
 
-    return new Promise((resolve) => {
       setTimeout(() => resolve(data), 1000)
     })
   })
