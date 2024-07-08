@@ -72,7 +72,7 @@ const upload = async (content) => {
     errors = errors + 1
   }
 
-  if (count % 1000 === 0) {
+  if (count % 250 === 0) {
     console.log('uploaded: ', count)
   }
 }
@@ -144,10 +144,8 @@ const loadFiles = async () => {
   const result = await getFiles()
 
   for (const item of result) {
-    console.log(item)
     try {
-      const result = await loadFile(item)
-      console.log(result)
+      await loadFile(item)
     } catch (error) {
       console.log(error)
     }
