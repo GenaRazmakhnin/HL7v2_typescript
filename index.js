@@ -86,6 +86,8 @@ const loadFile = async (file) => {
       return
     }
 
+    console.log('data:', data)
+
     return new Promise((resolve) => {
       setTimeout(() => resolve(data), 1000)
     })
